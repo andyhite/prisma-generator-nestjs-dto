@@ -159,6 +159,8 @@ export function parseApiProperty(
  * Compose `@ApiProperty()` decorator.
  */
 export function decorateApiProperty(field: ParsedField): string {
+  if (field.classTransforms?.includes('exclude')) return '';
+
   if (field.apiHideProperty) {
     return '@ApiHideProperty()\n';
   }

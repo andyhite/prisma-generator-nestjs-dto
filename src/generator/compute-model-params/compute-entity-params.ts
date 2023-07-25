@@ -23,6 +23,7 @@ import {
   makeImportsFromNestjsSwagger,
   parseApiProperty,
 } from '../api-decorator';
+import { makeImportsFromClassTransformer } from '../class-transformer';
 
 interface ComputeEntityParamsParam {
   model: Model;
@@ -45,9 +46,9 @@ export const computeEntityParams = ({
     const overrides: Partial<DMMF.Field> = {
       isRequired: true,
     };
-    const decorators: IDecorators = {};
-
-    if (isAnnotatedWith(field, DTO_ENTITY_HIDDEN)) return result;
+    const decorators: IDecorators = {
+      classTransforms: [],
+    };
 
     if (isType(field)) {
       // don't try to import the class we're preparing params for
@@ -135,6 +136,10 @@ export const computeEntityParams = ({
     }
 
     if (!templateHelpers.config.noDependencies) {
+      if (isAnnotatedWith(field, DTO_ENTITY_HIDDEN)) {
+        decorators.classTransforms?.push('exclude');
+      }
+
       if (isAnnotatedWith(field, DTO_API_HIDDEN)) {
         decorators.apiHideProperty = true;
       } else {
@@ -179,12 +184,15 @@ export const computeEntityParams = ({
     apiExtraModels,
   );
 
+  const importClassTransformer = makeImportsFromClassTransformer(fields);
+
   return {
     model,
     fields,
     imports: zipImportStatementParams([
       ...importPrismaClient,
       ...importNestjsSwagger,
+      ...importClassTransformer,
       ...imports,
     ]),
     apiExtraModels,

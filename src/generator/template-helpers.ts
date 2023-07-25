@@ -1,6 +1,7 @@
 import { DMMF } from '@prisma/generator-helper';
 import { ImportStatementParams, ParsedField } from './types';
 import { decorateApiProperty } from './api-decorator';
+import { decorateClassTransformers } from './class-transformer';
 import { decorateClassValidators } from './class-validator';
 import { isAnnotatedWith, isScalar, isType } from './field-classifiers';
 import { DTO_CAST_TYPE, DTO_TYPE_FULL_UPDATE } from './annotations';
@@ -205,9 +206,9 @@ export const makeHelpers = ({
     useInputTypes = false,
     forceOptional = false,
   ) =>
-    `${decorateApiProperty(field)}${decorateClassValidators(field)}${
-      field.name
-    }${unless(
+    `${decorateClassTransformers(field)}${decorateApiProperty(
+      field,
+    )}${decorateClassValidators(field)}${field.name}${unless(
       field.isRequired && !forceOptional,
       '?',
       when(definiteAssignmentAssertion, '!'),
@@ -226,7 +227,9 @@ export const makeHelpers = ({
     )}`;
 
   const fieldToEntityProp = (field: ParsedField) =>
-    `${decorateApiProperty(field)}${field.name}${unless(
+    `${decorateClassTransformers(field)}${decorateApiProperty(field)}${
+      field.name
+    }${unless(
       field.isRequired,
       '?',
       when(definiteAssignmentAssertion, '!'),

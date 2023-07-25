@@ -22,6 +22,7 @@ import {
   makeImportsFromNestjsSwagger,
   parseApiProperty,
 } from '../api-decorator';
+import { makeImportsFromClassTransformer } from '../class-transformer';
 
 interface ComputeConnectDtoParamsParam {
   model: Model;
@@ -106,7 +107,9 @@ export const computeConnectDtoParams = ({
   });
 
   const fields = uniqueFields.map((field) => {
-    const decorators: IDecorators = {};
+    const decorators: IDecorators = {
+      classTransforms: [],
+    };
 
     if (templateHelpers.config.classValidation) {
       decorators.classValidators = parseClassValidators({
@@ -164,12 +167,15 @@ export const computeConnectDtoParams = ({
     apiExtraModels,
   );
 
+  const importClassTransformer = makeImportsFromClassTransformer(fields);
+
   return {
     model,
     fields,
     imports: zipImportStatementParams([
       ...importPrismaClient,
       ...importNestjsSwagger,
+      ...importClassTransformer,
       ...imports,
     ]),
     extraClasses,

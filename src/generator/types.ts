@@ -24,6 +24,7 @@ export interface ParsedField {
   apiProperties?: IApiProperty[];
   apiHideProperty?: boolean;
   classValidators?: IClassValidator[];
+  classTransforms?: IClassTransform[];
   relationName?: string;
   relationFromFields?: string[];
   relationToFields?: string[];
@@ -115,8 +116,11 @@ export interface IClassValidator {
   value?: string;
 }
 
+export type IClassTransform = 'exclude';
+
 export interface IDecorators {
   apiProperties?: IApiProperty[];
   apiHideProperty?: boolean;
+  classTransforms?: IClassTransform[];
   classValidators?: IClassValidator[];
 }

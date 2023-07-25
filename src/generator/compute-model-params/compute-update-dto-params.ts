@@ -46,6 +46,7 @@ import {
   parseApiProperty,
 } from '../api-decorator';
 import { parseClassValidators } from '../class-validator';
+import { makeImportsFromClassTransformer } from '../class-transformer';
 
 interface ComputeUpdateDtoParamsParam {
   model: Model;
@@ -70,7 +71,9 @@ export const computeUpdateDtoParams = ({
     const overrides: Partial<DMMF.Field> = {
       isRequired: false,
     };
-    const decorators: IDecorators = {};
+    const decorators: IDecorators = {
+      classTransforms: [],
+    };
 
     if (
       isAnnotatedWith(field, DTO_RELATION_INCLUDE_ID) &&
@@ -79,7 +82,6 @@ export const computeUpdateDtoParams = ({
       field.isReadOnly = false;
 
     if (isReadOnly(field)) return result;
-    if (isAnnotatedWith(field, DTO_UPDATE_HIDDEN)) return result;
     if (isRelation(field)) {
       if (!isAnnotatedWithOneOf(field, DTO_RELATION_MODIFIERS_ON_UPDATE)) {
         return result;
@@ -188,6 +190,10 @@ export const computeUpdateDtoParams = ({
     }
 
     if (!templateHelpers.config.noDependencies) {
+      if (isAnnotatedWith(field, DTO_UPDATE_HIDDEN)) {
+        decorators.classTransforms?.push('exclude');
+      }
+
       if (isAnnotatedWith(field, DTO_API_HIDDEN)) {
         decorators.apiHideProperty = true;
       } else {
@@ -254,12 +260,15 @@ export const computeUpdateDtoParams = ({
     apiExtraModels,
   );
 
+  const importClassTransformer = makeImportsFromClassTransformer(fields);
+
   return {
     model,
     fields,
     imports: zipImportStatementParams([
       ...importPrismaClient,
       ...importNestjsSwagger,
+      ...importClassTransformer,
       ...imports,
     ]),
     extraClasses,
