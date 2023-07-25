@@ -48,7 +48,6 @@ export const computePlainDtoParams = ({
     const { name } = field;
     const overrides: Partial<DMMF.Field> = {
       isRequired: true,
-      isNullable: !field.isRequired,
     };
     const decorators: IDecorators = {};
 
@@ -108,7 +107,6 @@ export const computePlainDtoParams = ({
             isRequired: templateHelpers.config.requiredResponseApiProperty
               ? !!overrides.isRequired
               : false,
-            isNullable: !field.isRequired,
           },
           { default: false },
         );

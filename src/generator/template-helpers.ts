@@ -211,10 +211,7 @@ export const makeHelpers = ({
       field.isRequired && !forceOptional,
       '?',
       when(definiteAssignmentAssertion, '!'),
-    )}: ${fieldType(field, dtoType, useInputTypes)} ${when(
-      field.isNullable,
-      ' | null',
-    )};`;
+    )}: ${fieldType(field, dtoType, useInputTypes)}`;
 
   const fieldsToDtoProps = (
     fields: ParsedField[],
@@ -233,7 +230,7 @@ export const makeHelpers = ({
       field.isRequired,
       '?',
       when(definiteAssignmentAssertion, '!'),
-    )}: ${fieldType(field)} ${when(field.isNullable, ' | null')};`;
+    )}: ${fieldType(field)};`;
 
   const fieldsToEntityProps = (fields: ParsedField[]) =>
     `${each(fields, (field) => fieldToEntityProp(field), '\n')}`;

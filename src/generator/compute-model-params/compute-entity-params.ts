@@ -1,16 +1,7 @@
 import path from 'node:path';
 import slash from 'slash';
-import {
-  DTO_API_HIDDEN,
-  DTO_ENTITY_HIDDEN,
-  DTO_RELATION_REQUIRED,
-} from '../annotations';
-import {
-  isAnnotatedWith,
-  isRelation,
-  isRequired,
-  isType,
-} from '../field-classifiers';
+import { DTO_API_HIDDEN, DTO_ENTITY_HIDDEN } from '../annotations';
+import { isAnnotatedWith, isRelation, isType } from '../field-classifiers';
 import {
   getRelationScalars,
   getRelativePath,
@@ -53,7 +44,6 @@ export const computeEntityParams = ({
     const { name } = field;
     const overrides: Partial<DMMF.Field> = {
       isRequired: true,
-      isNullable: !field.isRequired,
     };
     const decorators: IDecorators = {};
 
@@ -102,11 +92,6 @@ export const computeEntityParams = ({
     // response from PrismaClient
     if (isRelation(field)) {
       overrides.isRequired = false;
-      overrides.isNullable = field.isList
-        ? false
-        : field.isRequired
-        ? false
-        : !isAnnotatedWith(field, DTO_RELATION_REQUIRED);
 
       // don't try to import the class we're preparing params for
       if (field.type !== model.name) {
@@ -146,21 +131,7 @@ export const computeEntityParams = ({
     }
 
     if (relationScalarFieldNames.includes(name)) {
-      const { [name]: relationNames } = relationScalarFields;
-      const isAnyRelationRequired = relationNames.some((relationFieldName) => {
-        const relationField = model.fields.find(
-          (anyField) => anyField.name === relationFieldName,
-        );
-        if (!relationField) return false;
-
-        return (
-          isRequired(relationField) ||
-          isAnnotatedWith(relationField, DTO_RELATION_REQUIRED)
-        );
-      });
-
       overrides.isRequired = true;
-      overrides.isNullable = !isAnyRelationRequired;
     }
 
     if (!templateHelpers.config.noDependencies) {
@@ -173,7 +144,6 @@ export const computeEntityParams = ({
             isRequired: templateHelpers.config.requiredResponseApiProperty
               ? !!overrides.isRequired
               : false,
-            isNullable: !field.isRequired,
           },
           { default: false },
         );

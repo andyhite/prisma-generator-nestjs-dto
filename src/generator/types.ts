@@ -19,7 +19,6 @@ export interface ParsedField {
    * are returned as `null` values (if not filled) when fetched from PrismaClient.
    * **must not be `true` when `isRequired` is `true`**
    */
-  isNullable?: boolean;
   hasDefaultValue?: boolean;
   default?: any;
   apiProperties?: IApiProperty[];

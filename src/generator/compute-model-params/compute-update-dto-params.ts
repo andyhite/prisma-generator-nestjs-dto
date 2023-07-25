@@ -69,7 +69,6 @@ export const computeUpdateDtoParams = ({
     const { name } = field;
     const overrides: Partial<DMMF.Field> = {
       isRequired: false,
-      isNullable: !field.isRequired,
     };
     const decorators: IDecorators = {};
 
@@ -97,7 +96,6 @@ export const computeUpdateDtoParams = ({
 
       overrides.type = relationInputType.type;
       overrides.isList = false;
-      overrides.isNullable = false;
 
       concatIntoArray(relationInputType.imports, imports);
       concatIntoArray(relationInputType.generatedClasses, extraClasses);
@@ -197,7 +195,6 @@ export const computeUpdateDtoParams = ({
           {
             ...field,
             ...overrides,
-            isNullable: !field.isRequired,
           },
           {
             type: !overrides.type,
