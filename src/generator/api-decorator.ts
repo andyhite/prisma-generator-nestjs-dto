@@ -146,11 +146,6 @@ export function parseApiProperty(
   if (!field.isRequired) {
     properties.push({ name: 'required', value: 'false' });
   }
-  if (
-    typeof field.isNullable === 'boolean' ? field.isNullable : !field.isRequired
-  ) {
-    properties.push({ name: 'nullable', value: 'true' });
-  }
 
   // set dummy property to force `@ApiProperty` decorator
   if (properties.length === 0) {
