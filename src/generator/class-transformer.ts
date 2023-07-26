@@ -4,7 +4,11 @@ export function decorateClassTransformers(field: ParsedField): string {
   let output = '';
 
   if (field.classTransforms?.includes('exclude')) {
-    output += '@Exclude()\n';
+    return '@Exclude()\n';
+  }
+
+  if (field.type === 'Decimal') {
+    output += '@Type(() => Number)\n';
   }
 
   return output;
@@ -17,8 +21,15 @@ export function makeImportsFromClassTransformer(
     field.classTransforms?.includes('exclude'),
   );
 
-  if (hasExclude) {
-    return [{ from: 'class-transformer', destruct: ['Exclude'] }];
+  const hasType = fields.some((field) => field.type === 'Decimal');
+
+  const destruct: string[] = [];
+
+  if (hasExclude) destruct.push('Exclude');
+  if (hasType) destruct.push('Type');
+
+  if (destruct.length > 0) {
+    return [{ from: 'class-transformer', destruct }];
   }
 
   return [];

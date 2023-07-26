@@ -66,6 +66,8 @@ model Product {
   categoryId      String        @db.Uuid
   companyId       String        @db.Uuid
 
+  price Decimal @db.Decimal(10, 2)
+
   /// @DtoRelationRequired
   /// @DtoRelationCanCreateOnCreate
   category Category @relation(fields: [categoryId], references: [id])

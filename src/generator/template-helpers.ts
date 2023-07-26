@@ -227,7 +227,7 @@ export const makeHelpers = ({
     )}`;
 
   const fieldToEntityProp = (field: ParsedField) =>
-    `${decorateClassTransformers(field)}${decorateApiProperty(field)}${
+    `${decorateApiProperty(field)}${decorateClassTransformers(field)}${
       field.name
     }${unless(
       field.isRequired,
