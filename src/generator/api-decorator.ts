@@ -131,6 +131,12 @@ export function parseApiProperty(
         { name: 'type', value: scalarFormat.type },
         { name: 'format', value: scalarFormat.format },
       );
+    } else if (field.kind === 'object') {
+      properties.push({
+        name: 'type',
+        value: field.type,
+        noEncapsulation: true,
+      });
     }
   }
 
