@@ -16,9 +16,9 @@ import {
   isId,
   isReadOnly,
   isRelation,
-  isRequiredWithDefaultValue,
   isType,
   isUpdatedAt,
+  isCreatedAt,
 } from '../field-classifiers';
 import {
   concatIntoArray,
@@ -125,7 +125,7 @@ export const computeUpdateDtoParams = ({
     if (!isDtoOptional) {
       if (isId(field)) return result;
       if (isUpdatedAt(field)) return result;
-      if (isRequiredWithDefaultValue(field)) return result;
+      if (isCreatedAt(field)) return result;
     }
 
     if (isType(field)) {

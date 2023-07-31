@@ -113,17 +113,6 @@ export const isUpdatedAt = (field: DMMF.Field): boolean => {
   return !!field.isUpdatedAt;
 };
 
-/**
- * for schema-required fields that fallback to a default value when empty.
- *
- * Think: `createdAt` timestamps
- *
- * @example
- * ```prisma
- *  model Post {
- *    createdAt   DateTime @default(now())
- *  }
- *  ```
- */
-export const isRequiredWithDefaultValue = (field: DMMF.Field): boolean =>
-  isRequired(field) && hasDefaultValue(field);
+export const isCreatedAt = (field: DMMF.Field): boolean => {
+  return !!field.isUpdatedAt;
+};
