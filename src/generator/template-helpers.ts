@@ -131,6 +131,7 @@ export const makeHelpers = ({
       '.ts',
     )}`;
 
+  const relationGeneric = (className: string) => `Relation<${className}>`;
   const entityName = (name: string) =>
     new RegExp(`${dtoSuffix || 'dto'}$`, 'i').test(name)
       ? className(name, '', '')
@@ -195,7 +196,7 @@ export const makeHelpers = ({
           field.pureType === true
         ? field.type
         : field.relationName
-        ? entityName(field.type)
+        ? relationGeneric(entityName(field.type))
         : dtoName(field.type, doFullUpdate ? 'create' : dtoType))
     }${when(field.isList, '[]')}`;
   };

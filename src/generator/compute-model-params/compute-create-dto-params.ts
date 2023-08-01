@@ -118,6 +118,11 @@ export const computeCreateDtoParams = ({
         classValidators,
         'name',
       );
+
+      imports.push({
+        destruct: ['Relation'],
+        from: './helpers',
+      });
     }
 
     if (

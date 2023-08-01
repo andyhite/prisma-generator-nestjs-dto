@@ -236,7 +236,12 @@ export const run = ({
       }),
     };
 
-    return [connectDto, createDto, updateDto, entity, plainDto];
+    const helpers = {
+      fileName: path.join(model.output.entity, 'helpers.ts'),
+      content: `export type Relation<T> = T;`,
+    };
+
+    return [connectDto, createDto, updateDto, entity, plainDto, helpers];
   });
 
   return [...typeFiles, ...modelFiles].flat();
