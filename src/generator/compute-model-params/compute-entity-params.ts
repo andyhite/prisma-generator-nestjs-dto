@@ -128,11 +128,6 @@ export const computeEntityParams = ({
             from: importFrom,
           });
         }
-
-        imports.push({
-          destruct: ['Relation'],
-          from: './helpers',
-        });
       }
     }
 

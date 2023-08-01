@@ -11,7 +11,10 @@ export const generateEntity = ({
   apiExtraModels,
   templateHelpers: t,
 }: GenerateEntityParam) => `
-${t.importStatements(imports)}
+${t.importStatements([
+  ...imports,
+  { destruct: ['Relation'], from: './helpers' },
+])}
 
 ${t.if(apiExtraModels.length, t.apiExtraModels(apiExtraModels))}
 export ${t.config.outputType} ${t.entityName(model.name)} {

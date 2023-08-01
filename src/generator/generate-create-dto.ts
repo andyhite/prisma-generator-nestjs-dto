@@ -14,7 +14,10 @@ export const generateCreateDto = ({
   exportRelationModifierClasses,
   templateHelpers: t,
 }: GenerateCreateDtoParam) => `
-${t.importStatements(imports)}
+${t.importStatements([
+  ...imports,
+  { destruct: ['Relation'], from: './helpers' },
+])}
 
 ${t.each(
   extraClasses,
