@@ -13,7 +13,7 @@ export const generateEntity = ({
 }: GenerateEntityParam) => `
 ${t.importStatements([
   ...imports,
-  { destruct: ['Relation'], from: './helpers' },
+  { destruct: ['Relation'], from: './helpers', type: true },
 ])}
 
 ${t.if(apiExtraModels.length, t.apiExtraModels(apiExtraModels))}

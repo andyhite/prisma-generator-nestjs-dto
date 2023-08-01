@@ -16,7 +16,7 @@ export const generateCreateDto = ({
 }: GenerateCreateDtoParam) => `
 ${t.importStatements([
   ...imports,
-  { destruct: ['Relation'], from: './helpers' },
+  { destruct: ['Relation'], from: './helpers', type: true },
 ])}
 
 ${t.each(

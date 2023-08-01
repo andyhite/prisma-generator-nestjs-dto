@@ -57,8 +57,11 @@ export const each = <T = any>(
 ) => arr.map(fn).join(joinWith);
 
 export const importStatement = (input: ImportStatementParams) => {
-  const { from, destruct = [], default: defaultExport } = input;
+  const { from, destruct = [], default: defaultExport, type: isType } = input;
   const fragments = ['import'];
+  if (isType) {
+    fragments.push('type');
+  }
   if (defaultExport) {
     if (typeof defaultExport === 'string') {
       fragments.push(defaultExport);

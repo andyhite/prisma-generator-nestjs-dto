@@ -52,6 +52,7 @@ export interface ImportStatementParams {
    * @example `{exportedName: localName}`
    */
   destruct?: (string | Record<string, string>)[];
+  type?: boolean;
 }
 
 export interface DtoParams {

@@ -16,7 +16,7 @@ export const generateUpdateDto = ({
 }: GenerateUpdateDtoParam) => `
 ${t.importStatements([
   ...imports,
-  { destruct: ['Relation'], from: './helpers' },
+  { destruct: ['Relation'], from: './helpers', type: true },
 ])}
 
 ${t.each(
