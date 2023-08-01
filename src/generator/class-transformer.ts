@@ -8,7 +8,7 @@ export function decorateClassTransformers(field: ParsedField): string {
   }
 
   if (field.type === 'Decimal') {
-    output += '@Type(() => Number)\n';
+    output += '@Type(() => String)\n';
   }
 
   return output;

@@ -114,5 +114,5 @@ export const isUpdatedAt = (field: DMMF.Field): boolean => {
 };
 
 export const isCreatedAt = (field: DMMF.Field): boolean => {
-  return !!field.isUpdatedAt;
+  return field.name === 'createdAt';
 };
