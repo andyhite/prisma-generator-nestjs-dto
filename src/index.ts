@@ -171,6 +171,8 @@ export const generate = async (options: GeneratorOptions) => {
     results.forEach(({ fileName }) => {
       const dirName = path.dirname(fileName);
 
+      if (fileName.endsWith('helpers.ts')) return;
+
       const { [dirName]: fileSpec } = indexCollections;
       indexCollections[dirName] = {
         fileName: fileSpec?.fileName || path.join(dirName, 'index.ts'),
