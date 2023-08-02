@@ -124,9 +124,10 @@ export const computeUpdateDtoParams = ({
 
     if (!isDtoOptional) {
       if (isId(field)) return result;
-      if (isUpdatedAt(field)) return result;
-      if (isCreatedAt(field)) return result;
     }
+
+    if (isUpdatedAt(field)) return result;
+    if (isCreatedAt(field)) return result;
 
     if (isType(field)) {
       // don't try to import the class we're preparing params for

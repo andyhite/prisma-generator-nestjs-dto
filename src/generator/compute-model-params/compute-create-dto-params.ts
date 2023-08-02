@@ -133,9 +133,11 @@ export const computeCreateDtoParams = ({
 
     if (!isDtoOptional) {
       if (isIdWithDefaultValue(field)) return result;
-      if (isUpdatedAt(field)) return result;
-      if (isCreatedAt(field)) return result;
     }
+
+    if (isUpdatedAt(field)) return result;
+    if (isCreatedAt(field)) return result;
+
     if (isDtoOptional) {
       overrides.isRequired = false;
     }
