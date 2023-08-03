@@ -202,9 +202,12 @@ export const computeCreateDtoParams = ({
       if (isAnnotatedWith(field, DTO_API_HIDDEN)) {
         decorators.apiHideProperty = true;
       } else {
-        decorators.apiProperties = parseApiProperty(field, {
-          type: !overrides.type,
-        });
+        decorators.apiProperties = parseApiProperty(
+          { ...field, ...overrides },
+          {
+            type: !overrides.type,
+          },
+        );
         if (overrides.type)
           decorators.apiProperties.push({
             name: 'type',
